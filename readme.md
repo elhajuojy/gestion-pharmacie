@@ -4,13 +4,13 @@ l’application de gestion de pharmacie  est une application console. Qui a pour
 
 ## base de données
 
-| Produit     | acheter           | Client Text   |
-| :---        |    :----:         |          ---: |
-| code        | code_achate       | cin           |
-| nom         | code_proudit      | nom           |
-| prix        | code_client       | prenom        |
-| prix_ttc    | date_achate       |               |
-| quantite    | qt_achate         |               |
+|     Produit            |        acheter                  |     Client Text         |
+|     :---               |           :----:                |              ---:       |
+|     code               |        code_achate              |     cin                 |
+|     nom                |        code_proudit             |     nom                 |
+|     prix               |        code_client              |     prenom              |
+|     prix_ttc           |        date_achate              |                         |
+|     quantite           |        qt_achate                |                         |
 
 ## Liste de tâches
 
