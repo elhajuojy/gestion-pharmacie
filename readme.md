@@ -30,11 +30,15 @@ l’application de gestion de pharmacie  est une application console. Qui a pour
         - Quantité.
   
 - [x] Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3.
+
 - [x] Alimenter le stock: permet de mettre à jour la quantité après avoir introduit le code produit et la quantité    ajouter.
 
 -[x] Supprimer les produits par:
+
     - Code
+
 -[x] Statistique de vente:
+
     -Afficher le total des prix des produits vendus en journée courante
     -Afficher la moyenne des prix des produits vendus en journée courante
     -Afficher le Max des prix des produits vendus en journée courante
