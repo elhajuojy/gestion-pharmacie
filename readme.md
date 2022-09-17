@@ -16,11 +16,11 @@ L’application doit avoir un menu qui vous permet de :
   - lister tous les produits selon l’ordre alphabétique  croissant du nom.
   - lister tous les produits selon l’ordre  décroissant du prix.
 
-        **N.B :  chaque produit à un Prix TTC = Prix + 15% du prix**
+**N.B :  chaque produit à un Prix TTC = Prix + 15% du prix**
 
 - Acheter produit : permet de mettre à jour la quantité après avoir introduit le code produit et la quantité à déduire
 
-      **N.B :Pour chaque produit acheté, vous devez enregistrer le prix TTC et la date d’achat.**
+**N.B :Pour chaque produit acheté, vous devez enregistrer le prix TTC et la date d’achat.**
 
 - Rechercher les produits Par :
 - Code
