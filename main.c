@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-
+//* structs ***🧑‍🦰🧑‍🦰
 
 typedef struct
 {
@@ -13,10 +13,7 @@ typedef struct
     int annee;
 
 } date;
-
-
 // Produit struct
-
 typedef struct
 {
     long long int code;
@@ -26,8 +23,6 @@ typedef struct
     int quantite;
 
 } Produit;
-
-
 // acheter struct
 typedef struct
 {
@@ -47,14 +42,17 @@ typedef struct
     char *prenom;
 } client;
 
+
+//* global varibales 🧾🧾
+//! arrays 
 Achat ListAchat[1000];
 Produit ListProudit[1000];
 
-int achatCounter =0;
+//! enums and ints  
 enum sort {ascending , descending}; 
-int length =20;
+int lengthListProduit =20;
 
-
+//random Data
 void listProduitdeTest(){
     Produit c1 = {6118000060154 ,"GLUCOR",200,230,20};
     Produit c2 = {6118000241324 ,"REVOCIR",100,115,10};
@@ -97,12 +95,9 @@ void listProduitdeTest(){
     ListProudit[18] = c19;
     ListProudit[19] = c20;
 };
-
-
-void triProduitParPrix();
-
-
 void listAchatDeTest(){
+
+
    date d1 = {17,9,2022};
    date d2 = {17,9,2022};
    date d3 = {17,9,2022};
@@ -132,6 +127,8 @@ void listAchatDeTest(){
 //    ListAchat[9]=a10;
 }
 
+
+// ** function  Produits 
 void AfficheUnProudit(long long int codePr){
     int found =0;
     int posOfTheProudit=-1;
@@ -199,14 +196,15 @@ void AfficheToutLesProudit(){
     }
      printf("--------------------------------------------------------\n");
 }
+//affiche Tout les Poudit As table 
 void AfficheToutLesProuditAsTable(){ 
     printf("code \t\t nom \t\t prix \t\t\t quantite\n");
-    printf("------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------\n");
     for (int i = 0; i < 20; i++)
     {
         // printf(" code :%lld || nom : %s  || prix : %.2f || prix ttc : %.2f || quantite :  %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].prix_ttc,ListProudit[i].quantite);
         printf("%lld \t %s \t %.2f DH \t\t %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].quantite);
-        printf("--------------------------------------------------------------\n");
+        printf("-------------------------------------------------------------------\n");
     }
 }
 
@@ -226,9 +224,9 @@ void triProduitParPrix(){
     
         int posmin = 0;
         Produit temp ;
-        for (int j = 0; j < length; j++)
+        for (int j = 0; j < lengthListProduit; j++)
             {
-                for (int i = 1; i < length; i++)
+                for (int i = 1; i < lengthListProduit; i++)
                 {
                     if (ListProudit[i].prix>ListProudit[i-1].prix)
                     {
@@ -242,18 +240,21 @@ void triProduitParPrix(){
     
 }
 
+//menu
+void menu(){}
 
+//******  main function 🎁🎁
 
 int main(){
     //start the projet 
 
     listProduitdeTest();
+    // listAchatDeTest();
     // AfficheUnProudit(6118000060857);
     // ModiferUnProduit(6118000060857,100);
     // supprimerUnProduit(6118000060857);
     // printf("before \n");
     // AfficheToutLesProudit();
-    // triProduitParPrix();
     // printf("after \n");
     // AfficheToutLesProudit();
     AfficheToutLesProuditAsTable();
