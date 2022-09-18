@@ -17,7 +17,7 @@ typedef struct
 typedef struct
 {
     long long int code;
-    char *nom;
+    char nom[20];
     float prix;
     float prix_ttc;
     int quantite;
@@ -53,6 +53,7 @@ enum sort {ascending , descending};
 int lengthListProduit =20;
 
 //random Data
+
 void listProduitdeTest(){
     Produit c1 = {6118000060154 ,"GLUCOR",200,230,20};
     Produit c2 = {6118000241324 ,"REVOCIR",100,115,10};
@@ -126,6 +127,10 @@ void listAchatDeTest(){
    ListAchat[8]=a9;
 //    ListAchat[9]=a10;
 }
+
+
+//constants  
+
 
 
 // ** function  Produits 
@@ -240,6 +245,29 @@ void triProduitParPrix(){
     
 }
 
+void triParOrderAphabétiqueCroissant(){
+        char C;
+        int counter =0;
+        Produit temp;
+        for (C = 'A'; C <= 'Z'; ++C)
+        {
+            
+            for (int i = 0; i < 20; i++)
+            {
+                char cc = C;
+                char firstword =ListProudit[i].nom[0];
+                if (cc==firstword )
+                {
+                    temp = ListProudit[i];
+                    ListProudit[i] = ListProudit[counter];
+                    ListProudit[counter] = temp;
+                    counter++; 
+                }
+                
+            
+        }
+    }
+}
 //menu
 void menu(){}
 
@@ -248,8 +276,7 @@ void menu(){}
 int main(){
     //start the projet 
 
-    listProduitdeTest();
-    // listAchatDeTest();
+    listProduitdeTest();   // listAchatDeTest();
     // AfficheUnProudit(6118000060857);
     // ModiferUnProduit(6118000060857,100);
     // supprimerUnProduit(6118000060857);
@@ -257,6 +284,9 @@ int main(){
     // AfficheToutLesProudit();
     // printf("after \n");
     // AfficheToutLesProudit();
+    // AfficheToutLesProuditAsTable();
+    // triParOrderAphabétiqueCroissant();
+    triProduitParPrix();
     AfficheToutLesProuditAsTable();
 
 
