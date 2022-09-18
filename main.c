@@ -3,7 +3,7 @@
 #include<string.h>
 #include <math.h>
 #include <time.h>
-
+#include<windows.h>
 //* structs ***🧑‍🦰🧑‍🦰
 
 typedef struct
@@ -61,7 +61,7 @@ void listProduitdeTest(){
     Produit c4 = {6118000061106 ,"ASPEGIC ENF",300,340,4};
     Produit c5 = {6118000060857 ,"SURGAM",20,25,10};
     Produit c6 = {6118000061243 ,"EXACYL",10,12,50};
-    Produit c7 = {6118001141357 ,"ZENTEL",20,30,11};
+    Produit c7 = {6118001141357 ,"ZENTEL",340.34,30,11};
     Produit c8 = {6118000022251 ,"ZYLORIC",30,33,1};
     Produit c9 = {6118001081288 ,"XATRAL",222,250,2};
     Produit c10 ={6118001182657 ,"AMIKLIN",230,280,2};
@@ -75,6 +75,7 @@ void listProduitdeTest(){
     Produit c18 ={6118000160724 ,"PENAMOX",210,230,30};
     Produit c19 ={6118000031161 ,"AXIMYCINE",122,255,37};
     Produit c20 ={6118001200818 ,"FUCITHALMIC",140,160,55};
+    
     ListProudit[0] = c1;
     ListProudit[1] = c2;
     ListProudit[2] = c3;
@@ -127,14 +128,10 @@ void listAchatDeTest(){
    ListAchat[8]=a9;
 //    ListAchat[9]=a10;
 }
-
-
-//constants  
-
-
+//constants 
 
 // ** function  Produits 
-void AfficheUnProudit(long long int codePr){
+void AfficheUnProduit(long long int codePr){
     int found =0;
     int posOfTheProudit=-1;
     for (int i = 0; i < 20 ; i++)
@@ -158,11 +155,10 @@ void AfficheUnProudit(long long int codePr){
 }
 
 void AfficheProduitDansPosition(int posOfTheProudit){
-    
     printf("code :%lld || nom : %s  || prix : %.2f || prix ttc : %.2f || quantite :  %d \n",ListProudit[posOfTheProudit].code,ListProudit[posOfTheProudit].nom,ListProudit[posOfTheProudit].prix,ListProudit[posOfTheProudit].prix_ttc,ListProudit[posOfTheProudit].quantite);
 }
 
-long long int RechercheUnProudit(long long int codePr){
+long long int RechercheUnProduit(long long int codePr){
     int found =0;
     int posOfTheProudit=-1;
     for (int i = 0; i < 20 ; i++)
@@ -181,7 +177,7 @@ long long int RechercheUnProudit(long long int codePr){
 }
 
 void ModiferUnProduit(long long int codePr,int qtn ){
-   int posOfThePr=  RechercheUnProudit(codePr);
+   int posOfThePr=  RechercheUnProduit(codePr);
    ListProudit[posOfThePr].quantite =ListProudit[posOfThePr].quantite+qtn; 
    if (posOfThePr==0)
    {
@@ -193,7 +189,7 @@ void ModiferUnProduit(long long int codePr,int qtn ){
 
 }
 
-void AfficheToutLesProudit(){ 
+void AfficheToutLesProduit(){ 
     printf("-------------------------- list des proudit ---------------------------- \n");
     for (int i = 0; i < 20; i++)
     {
@@ -202,7 +198,7 @@ void AfficheToutLesProudit(){
      printf("--------------------------------------------------------\n");
 }
 //affiche Tout les Poudit As table 
-void AfficheToutLesProuditAsTable(){ 
+void AfficheToutLesProduitAsTable(){ 
     printf("code \t\t nom \t\t prix \t\t\t quantite\n");
     printf("-------------------------------------------------------------------\n");
     for (int i = 0; i < 20; i++)
@@ -214,13 +210,13 @@ void AfficheToutLesProuditAsTable(){
 }
 
 void supprimerUnProduit(long long int codePrSupprimer){
-    int posCodePrSupprimer = RechercheUnProudit(codePrSupprimer);
-    for (int i = posCodePrSupprimer; i < 20; i++)
+    int posCodePrSupprimer = RechercheUnProduit(codePrSupprimer);
+    for (int i = posCodePrSupprimer; i < lengthListProduit; i++)
     {
         ListProudit[i] = ListProudit[i+1];
     }
     printf("======================================\n");
-    AfficheToutLesProudit();
+    AfficheToutLesProduit();
 }
 
 
@@ -245,7 +241,7 @@ void triProduitParPrix(){
     
 }
 
-void triParOrderAphabétiqueCroissant(){
+void triParOrderAphabetiqueCroissant(){
         char C;
         int counter =0;
         Produit temp;
@@ -268,26 +264,168 @@ void triParOrderAphabétiqueCroissant(){
         }
     }
 }
-//menu
-void menu(){}
+//menu 
+
+void minMax(){
+    float max_prix = ListProudit[0].prix;
+    int max_pos  =0;
+    float min_prix = ListProudit[0].prix;
+    int min_pos  =0;
+    for (int i = 0; i < 20; i++)
+    {
+        if (min_prix>ListProudit[i].prix)
+        {
+            min_prix = ListProudit[i].prix;
+            min_pos = i;
+
+        }
+        
+        if (max_prix<ListProudit[i].prix)
+        {
+            max_prix = ListProudit[i].prix;
+            max_pos = i;
+        }
+    }
+    // printf("les pos min %d les pos max %d",min_pos,max_pos);
+    printf("max prix est  %s =>%.2f DH \n",ListProudit[max_pos].nom,max_prix);
+    printf("min prix est %s =>%.2f DH \n ",ListProudit[min_pos].nom,min_prix);
+}
+
+// Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3. 
+void etatStock(int infarieureA){
+    for (int i = 0; i < 20; i++)
+    {
+        if(ListProudit[i].quantite<infarieureA){
+            AfficheProduitDansPosition(i);
+        }
+    }
+    
+}
+
+
+void AjouterProduit(int NbrProduit){
+    Produit pr ; 
+    int c = 0;
+    printf("***********Ajouter Produit**************\n");
+    for (int i = 0; i < NbrProduit; i++)
+    {
+        printf("veuillez entrer le code du produit : ");
+        scanf("%lld",&pr.code );
+        printf("veuillez entrer le nom du produit : ");
+        scanf("%s",&pr.nom );
+        printf("veuillez entrer le prix du produit : ");
+        scanf("%f",&pr.prix );
+        printf("veuillez entrer le prix ttc du produit : ");
+        scanf("%f",&pr.prix_ttc );
+        printf("veuillez entrer le quantite du produit : ");
+        scanf("%d",&pr.quantite );
+    }
+    printf("\n");
+    lengthListProduit ++;
+    ListProudit[lengthListProduit] = pr;
+    while (c != 10)
+    {
+        printf("🔃🔃");
+        c++;
+        Sleep(500);
+    }
+    printf("\n");
+    AfficheProduitDansPosition(lengthListProduit);
+}
+
+void menu(){
+
+}
 
 //******  main function 🎁🎁
-
 int main(){
     //start the projet 
-
+    
     listProduitdeTest();   // listAchatDeTest();
-    // AfficheUnProudit(6118000060857);
+    // AfficheUnProduit(6118000060857);
     // ModiferUnProduit(6118000060857,100);
     // supprimerUnProduit(6118000060857);
     // printf("before \n");
-    // AfficheToutLesProudit();
+    // AfficheToutLesProduit();
     // printf("after \n");
-    // AfficheToutLesProudit();
-    // AfficheToutLesProuditAsTable();
-    // triParOrderAphabétiqueCroissant();
-    triProduitParPrix();
-    AfficheToutLesProuditAsTable();
+    // AfficheToutLesProduit();
+    // AfficheToutLesProduitAsTable();
+    // triParOrderAphabetiqueCroissant();
+    // triProduitParPrix();
+    // AfficheToutLesProduitAsTable();
+    // minMax();
+    // etatStock(3);
+    // AjouterProduit(1);
+    int nbr ;
+    printf("\t\t\t1-Ajouter un nouveau produit.\n\n");
+    Sleep(300);
+    printf("\t\t\t2-Ajouter plusieurs nouveaux produits.\n\n");
+    Sleep(300);
+    printf("\t\t\t3-Lister tous les produits.\n\n");
+    Sleep(300);
+    printf("\t\t\t4-Acheter produits.\n\n");
+    Sleep(300);
+    printf("\t\t\t5-Recherche les produits.\n\n");
+    Sleep(300);
+    printf("\t\t\t6-Etat du stock.\n\n");
+    Sleep(300);
+    printf("\t\t\t7-Alimenter le stock.\n\n");
+    Sleep(300);
+    printf("\t\t\t8-Supprimer les produits par code.\n\n");
+    Sleep(300);
+    printf("\t\t\t9-Stasitique de vente.\n\n");
+    Sleep(300);
+    printf("\t\t\t10-Exit.\n\n");
+    Sleep(300);
+    printf("\t\t\tchoisi une service: ");
+    Sleep(300);
+    scanf(" %d",&nbr);
+    system("cls");
+    
+    switch (nbr)
+    {
+    case 1:
+            AjouterProduit(1);
 
+        break;
+    case 2:
+            printf("Entre les number de produit ");
+            int nbrPr ;
+            scanf("%d",&nbrPr);
+            AjouterProduit(nbr);
+            break;
+    case 3:
+            // AfficheToutLesProduit();
+            AfficheToutLesProduitAsTable();
+            break;
 
+    case 4:
+            break;
+    case 5:
+            printf("Recherche les produits donner les number svp : ");
+            long long  int codePr ;
+            scanf("%lld",&codePr);
+            // RechercheUnProduit(codePr);
+            AfficheUnProduit(codePr);
+            break;
+    case 6:
+            etatStock(3);
+            break;
+    case 7:
+           
+            break;
+    case 8:
+           
+            break;
+    case 9:
+           
+            break;
+    case 10: 
+            exit(0);
+            break;
+    default:
+    printf("entrer correct choix.");
+        break;
+
+    }
 }
