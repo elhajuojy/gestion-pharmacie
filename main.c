@@ -13,7 +13,27 @@ typedef struct
     int annee;
 
 } date;
+
+
+
+date getDateToday () {
+   time_t now = time(NULL);
+   
+//    struct tm *gm_time = gmtime(&now);
+   struct tm *gm_time = localtime(&now);
+   
+   date today ;
+   today.jour = gm_time->tm_mday;
+   today.mois = gm_time->tm_mon+1;
+   today.annee = gm_time->tm_year+1900;
+//    printf("%d\n",gm_time->tm_hour);
+//    printf("%d\n",gm_time->tm_min);
+//    printf("%d/%d/%d",today.jour,today.mois,today.annee);
+    
+    return today;
+}
 // Produit struct
+
 typedef struct
 {
     long long int code;
@@ -26,7 +46,7 @@ typedef struct
 // acheter struct
 typedef struct
 {
-    int code_achate;
+    long long int code_achate;
     long long int code_proudit;
     // float *cin_client;
     // Produit produit;
@@ -34,6 +54,10 @@ typedef struct
     int qt_achate;
 
 } Achat;
+
+Achat ListAchat[1000];
+Produit ListProudit[1000];
+
 
 typedef struct 
 {
@@ -47,12 +71,12 @@ int main();
 
 //* global varibales 🧾🧾
 //! arrays 
-Achat ListAchat[1000];
-Produit ListProudit[1000];
+
 
 //! enums and ints  
 enum sort {ascending , descending}; 
 int lengthListProduit =20;
+int lengthListAchat =10;
 
 //random Data
 
@@ -108,16 +132,16 @@ void listAchatDeTest(){
    date d4 = {17,9,2022};
    date d5 = {17,9,2022};
    date d6 = {17,9,2022};
-
+   date todayMe=  getDateToday();
    Achat a1 = {1,6118000061106,d1,5};
    Achat a2 = {2,6118000180043,d2,3};
    Achat a3 = {3,6118000031161,d3,2};
-   Achat a4 = {4,6118000061106,d1,4};
-   Achat a5 = {5,6118000180043,d1,1};
-   Achat a6 = {6,6118000160038,d6,4};
+   Achat a4 = {4,6118000061106,todayMe,4};
+   Achat a5 = {5,6118000180043,todayMe,1};
+   Achat a6 = {6,6118000160038,todayMe,4};
    Achat a7 = {7,6118000060154,d6,2};
    Achat a8 = {8,6118000241324,d5,1};
-   Achat a9 ={9,6118001200818,d5,3};
+   Achat a9 ={9,6118001200818,todayMe,3};
 
    ListAchat[0]=a1;
    ListAchat[1]=a2;
@@ -178,9 +202,34 @@ long long int RechercheUnProduit(long long int codePr){
     
 }
 
-void ModiferUnProduit(long long int codePr,int qtn ){
-   int posOfThePr=  RechercheUnProduit(codePr);
-   ListProudit[posOfThePr].quantite =ListProudit[posOfThePr].quantite+qtn; 
+
+int RechercheUnProduitPos(long long int codePr){
+    
+    int posOfTheProudit=-1;
+    for (int i = 0; i < 20 ; i++)
+    {
+        if (ListProudit[i].code==codePr)
+        {
+            return posOfTheProudit =i;
+            break;
+        }
+        
+        
+    }
+    return posOfTheProudit;
+    
+}
+
+void Alimenterlestock(){
+    long long int code ;
+    int quantite;
+    printf("\t\t Alimenter le stock");
+    printf("svp introduit le code produit :");
+    scanf("%lld",&code);
+    printf("svp introduit le code quantite à ajouter :");
+    scanf("%d",&quantite);
+   int posOfThePr=  RechercheUnProduit(code);
+   ListProudit[posOfThePr].quantite =ListProudit[posOfThePr].quantite+quantite; 
    if (posOfThePr==0)
    {
     printf("Produit is not exit ");
@@ -190,6 +239,8 @@ void ModiferUnProduit(long long int codePr,int qtn ){
    
 
 }
+
+
 
 void AfficheToutLesProduit(){ 
     printf("-------------------------- list des proudit ---------------------------- \n");
@@ -211,8 +262,12 @@ void AfficheToutLesProduitAsTable(){
     }
 }
 
-void supprimerUnProduit(long long int codePrSupprimer){
-    int posCodePrSupprimer = RechercheUnProduit(codePrSupprimer);
+void supprimerUnProduit(){
+    long long int code ;
+    printf("\t\t Supprimer un produits \n");
+    printf("svp introduit le code produit :");
+    scanf("%lld",&code);
+    int posCodePrSupprimer = RechercheUnProduitPos(code);
     for (int i = posCodePrSupprimer; i < lengthListProduit; i++)
     {
         ListProudit[i] = ListProudit[i+1];
@@ -308,9 +363,9 @@ void etatStock(int infarieureA){
 void AjouterProduit(int NbrProduit){
     Produit pr ; 
     int c = 0;
-    printf("***********Ajouter Produit**************\n");
     for (int i = 0; i < NbrProduit; i++)
     {
+        printf("***********Ajouter Produit************** %d\n", i+1);
         printf("veuillez entrer le code du produit : ");
         scanf("%lld",&pr.code );
         printf("veuillez entrer le nom du produit : ");
@@ -325,55 +380,22 @@ void AjouterProduit(int NbrProduit){
         printf("bien Ajouter \n");
         printf("\n");
         ListProudit[lengthListProduit] = pr;
+        AfficheProduitDansPosition(lengthListProduit);
         lengthListProduit ++;
 
     }
-    AfficheProduitDansPosition(lengthListProduit);
     while (c != 10)
     {
         printf("🔃🔃");
         c++;
         Sleep(500);
     }
-    AfficheToutLesProduitAsTable();
-    printf("\n");
-    Sleep(20000);
-    system("cls");
+    
     // main();
 
 }
 
-void menu(){
-
-}
-
-
-
-//******  main function 🎁🎁
-int main(){
-    //start the projet 
-
-    
-    
-
-
-    // AfficheUnProduit(6118000060857);
-    // ModiferUnProduit(6118000060857,100);
-    // supprimerUnProduit(6118000060857);
-    // printf("before \n");
-    // AfficheToutLesProduit();
-    // printf("after \n");
-    // AfficheToutLesProduit();
-    // AfficheToutLesProduitAsTable();
-    // triParOrderAphabetiqueCroissant();
-    // triProduitParPrix();
-    // AfficheToutLesProduitAsTable();
-    // minMax();
-    // etatStock(3);
-    // AjouterProduit(1);
-
-    // AjouterProduit(1);
-    
+int menu(){
     int nbr ;
     printf("\t\t\t1-Ajouter un nouveau produit.\n\n");
     // Sleep(200);
@@ -394,81 +416,259 @@ int main(){
     printf("\t\t\t9-Stasitique de vente.\n\n");
     // Sleep(200);
     printf("\t\t\t10-Exit.\n\n");
+    printf("\t\t\t11-random Data.\n\n");
+    // Sleep(200);
+    printf("\t\t\t12-random Data.\n\n");
     // Sleep(200);
     printf("\t\t\tchoisi une service: ");
     // Sleep(200);
     scanf(" %d",&nbr);
     system("cls");
     
+    return nbr;
+}
+
+//function for back to the main page 
+void backTomenu(){
+    printf("\n");
+    char re;
+    printf("return y/n :");
+    scanf(" %c",&re);
+    
+    printf("\n %c",re);
+    if (re=='y')
+    {
+        system("cls");
+        main();
+    }
+    
+}
+void printAchat();
+void totalprixJourneeCourante()
+{
+    float totalprix=0;
+    // for (int i = 0; i < lengthListAchat; i++)
+    // {
+    //     for (int j = 0; j < lengthListProduit; j++)
+    //     {
+    //         if (ListProudit[i].code== ListAchat[j].code_achate||getDateToday().jour == ListAchat[j].date_achate.jour
+    //                 ||getDateToday().mois == ListAchat[j].date_achate.mois ||getDateToday().annee == ListAchat[j].date_achate.annee )
+    //         {
+    //             totalprix += ListProudit[i].prix_ttc;
+    //             // printf("produit | %s | vous achter %d et c'est prix est :%f\n",ListProudit[i].nom,ListAchat[j].qt_achate,ListProudit[i].prix_ttc);
+    //         }
+            
+    //     }
+        
+    // }
+    for (int i = 0; i < 19; i++)
+    {
+        totalprix += ListProudit[i].prix_ttc;
+    }
+    
+    
+    printf("total prix pour c'est jour %d/%d/%d est  %f \n",getDateToday().jour,getDateToday().mois,getDateToday().annee,totalprix);
+    printAchat();
+
+}
+
+void printAchat(){
+    // long long int code_achate;
+    // long long int code_proudit;
+    // // float *cin_client;
+    // // Produit produit;
+    // date date_achate;
+    // int qt_achate;
+    for (int i = 0; i < 10; i++)
+    {
+        printf("%lld =>%lld=> %d/%d/%d => %d \n",ListAchat[i].code_achate,ListAchat[i].code_proudit,ListAchat[i].date_achate.jour
+        ,ListAchat[i].date_achate.mois,ListAchat[i].date_achate.annee,ListAchat[i].qt_achate);
+    }
+    
+
+}
+void Statistiquedevente(){
+    printf("\t\t -1 Afficher le total des prix des produits vendus en journee courante \n");
+    printf("\t\t -2 Afficher la moyenne des prix des produits vendus en journee courante \n");
+    printf("\t\t -3 Afficher le Max des prix des produits vendus en journee courante \n");
+    printf("\t\t -4 Afficher le Min des prix des produits vendus en journee courante \n");
+    
+    
+    int choix ;
+    scanf("%d",&choix);
+    switch (choix)
+    {
+    case 1:
+        // minMax();
+        totalprixJourneeCourante();
+        break;
+    
+    default:
+        break;
+    }
+}
+void tiket(Achat achatProudit,Produit pr);
+
+void Acheterproduit(){
+    int r = rand(); 
+    time_t now = time(NULL);
+    struct tm *gm_time = localtime(&now);
+    long long int codeachat =  gm_time->tm_hour+gm_time->tm_sec+gm_time->tm_mday+r;
+    Achat achterpr ; 
+    achterpr.code_achate =codeachat;
+    printf("svp entre le code de produit vender ");
+    scanf("%lld",&achterpr.code_proudit);
+    long long int posoftheProudct = RechercheUnProduitPos(achterpr.code_proudit);
+    
+    if (posoftheProudct==-1)
+    {
+        printf("ce produit il n'existe pas");
+    }
+    else
+    {   
+        achterpr.date_achate =getDateToday();
+        printf("svp introduit le code produit et la quantite a deduire");
+        scanf("%d",&achterpr.qt_achate);
+        if (ListProudit[posoftheProudct].quantite<achterpr.qt_achate)
+        {
+            printf("il n'y a pas assez de produits pour vous ");
+        }
+        else{
+        
+            ListProudit[posoftheProudct].quantite =ListProudit[posoftheProudct].quantite-achterpr.qt_achate; 
+            ListAchat[lengthListAchat] = achterpr;
+            lengthListAchat++;
+            tiket(achterpr,ListProudit[posoftheProudct]);
+            
+            
+        }
+    }
+    
+    
+}
+
+void tiket(Achat achatProudit,Produit pr){
+    printf("Tiket ");
+    printf("\n");
+    printf("=============================================");
+    printf("\n");
+    printf("code d'achat : %d\n",achatProudit.code_achate);
+    printf("code d produit achate  : %d\n",achatProudit.code_proudit);
+    printf("date : %d/%d/%d\n",achatProudit.date_achate.jour,achatProudit.date_achate.mois,achatProudit.date_achate.annee);
+    printf("quantite x %d \n",achatProudit.qt_achate);
+    float total = pr.prix_ttc*achatProudit.qt_achate;
+    printf("total prix :%f ",total);
+    printf("\n");
+    printf("=============================================");
+    printf("\n");
+}
+
+//******  main function 🎁🎁
+int main(){
+    //start the projet 
+
+    // AfficheUnProduit(6118000060857);
+    // ModiferUnProduit(6118000060857,100);
+    // supprimerUnProduit(6118000060857);
+    // printf("before \n");
+    // AfficheToutLesProduit();
+    // printf("after \n");
+    // AfficheToutLesProduit();
+    // AfficheToutLesProduitAsTable();
+    // triParOrderAphabetiqueCroissant();
+    // triProduitParPrix();
+    // AfficheToutLesProduitAsTable();
+    // minMax();
+    // etatStock(3);
+    // AjouterProduit(1);
+
+    // AjouterProduit(1);
+    
+    int nbr  = menu();
+   
+    
     switch (nbr)
     {
     case 1:
             AjouterProduit(1);
-            main();
-
-        break;
+            backTomenu();
+            break;
     case 2:
             printf("Entre les number de produit ");
             int nbrPr ;
             scanf("%d",&nbrPr);
             AjouterProduit(nbr);
-           
+            backTomenu();
             break;
     case 3:
-            // AfficheToutLesProduit();
-            // AfficheToutLesProduitAsTable();
-            printf("\t\t 1-lister tous les produits selon lordre alphabétique  croissant du nom \n");
-            printf("\t\t 2-lister tous les produits selon lordre  décroissant du prix. \n");
+            printf("\t\t 1-lister tous les produits selon lordre alphabetique  croissant du nom \n");
+            printf("\t\t 2-lister tous les produits selon lordre  decroissant du prix. \n");
             printf("\t\t 3-retour au menu \n");
-
             int choixlister ;
             printf("\t\t");
             scanf("%d",&choixlister);
             if (choixlister==1)
             {
-                listProduitdeTest();
                 triParOrderAphabetiqueCroissant();
                 AfficheToutLesProduitAsTable();
-                
+                backTomenu();
             }
-            else if (choixlister==1)
+            else if (choixlister==2)
             {
                 triProduitParPrix();
-                listProduitdeTest();
                 AfficheToutLesProduitAsTable();
+                backTomenu();
             }
             else{
                 system("cls");
                 main();
                 
             }
-            
-            
+            //case break
             break;
-
     case 4:
+            printf("\t\t Acheter produit \n");
+            Acheterproduit();
+            backTomenu();
             break;
     case 5:
             printf("Recherche les produits donner les number svp : ");
             long long  int codePr ;
             scanf("%lld",&codePr);
-            // RechercheUnProduit(codePr);
             AfficheUnProduit(codePr);
+            backTomenu();
             break;
     case 6:
             etatStock(3);
+            backTomenu();
             break;
     case 7:
-        //    ModiferUnProduit();
+            Alimenterlestock();
+            backTomenu();
             break;
     case 8:
-        //    supprimerUnProduit();
+            
+            supprimerUnProduit();
+            backTomenu();
             break;
     case 9:
-        //    9-Stasitique de vente
+            //    9-Stasitique de vente
+            Statistiquedevente();
+            backTomenu();
             break;
+    
     case 10: 
             exit(0);
+            break;
+    
+    case 11: 
+            listProduitdeTest();
+            backTomenu();
+            break;
+    case 12: 
+            listAchatDeTest();
+            printAchat();
+            backTomenu();
             break;
     default:
     printf("entrer correct choix.");
@@ -477,15 +677,3 @@ int main(){
     }
 }
 
-
-void backTomenu(){
-    char re;
-    printf("return y/n");
-    scanf("%d",&re);
-    if (re=='y')
-    {
-        system("cls");
-        main();
-    }
-    
-}
