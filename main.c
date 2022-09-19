@@ -43,6 +43,8 @@ typedef struct
 } client;
 
 
+int main();
+
 //* global varibales 🧾🧾
 //! arrays 
 Achat ListAchat[1000];
@@ -58,7 +60,7 @@ void listProduitdeTest(){
     Produit c1 = {6118000060154 ,"GLUCOR",200,230,20};
     Produit c2 = {6118000241324 ,"REVOCIR",100,115,10};
     Produit c3 = {6118000070573 ,"LISASPIN",140,230,20};
-    Produit c4 = {6118000061106 ,"ASPEGIC ENF",300,340,4};
+    Produit c4 = {6118000061106 ,"ASPEGIC ENF",200,340,4};
     Produit c5 = {6118000060857 ,"SURGAM",20,25,10};
     Produit c6 = {6118000061243 ,"EXACYL",10,12,50};
     Produit c7 = {6118001141357 ,"ZENTEL",340.34,30,11};
@@ -191,7 +193,7 @@ void ModiferUnProduit(long long int codePr,int qtn ){
 
 void AfficheToutLesProduit(){ 
     printf("-------------------------- list des proudit ---------------------------- \n");
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < lengthListProduit; i++)
     {
         printf(" code :%lld || nom : %s  || prix : %.2f || prix ttc : %.2f || quantite :  %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].prix_ttc,ListProudit[i].quantite);
     }
@@ -201,7 +203,7 @@ void AfficheToutLesProduit(){
 void AfficheToutLesProduitAsTable(){ 
     printf("code \t\t nom \t\t prix \t\t\t quantite\n");
     printf("-------------------------------------------------------------------\n");
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < lengthListProduit; i++)
     {
         // printf(" code :%lld || nom : %s  || prix : %.2f || prix ttc : %.2f || quantite :  %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].prix_ttc,ListProudit[i].quantite);
         printf("%lld \t %s \t %.2f DH \t\t %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].quantite);
@@ -315,33 +317,46 @@ void AjouterProduit(int NbrProduit){
         scanf("%s",&pr.nom );
         printf("veuillez entrer le prix du produit : ");
         scanf("%f",&pr.prix );
-        printf("veuillez entrer le prix ttc du produit : ");
-        scanf("%f",&pr.prix_ttc );
+        // printf("veuillez entrer le prix ttc du produit : ");
+        pr.prix_ttc = pr.prix +pr.prix*15/100;
+        // scanf("%f",&pr.prix_ttc );
         printf("veuillez entrer le quantite du produit : ");
         scanf("%d",&pr.quantite );
+        printf("bien Ajouter \n");
+        printf("\n");
+        ListProudit[lengthListProduit] = pr;
+        lengthListProduit ++;
+
     }
-    printf("\n");
-    lengthListProduit ++;
-    ListProudit[lengthListProduit] = pr;
+    AfficheProduitDansPosition(lengthListProduit);
     while (c != 10)
     {
         printf("🔃🔃");
         c++;
         Sleep(500);
     }
+    AfficheToutLesProduitAsTable();
     printf("\n");
-    AfficheProduitDansPosition(lengthListProduit);
+    Sleep(20000);
+    system("cls");
+    // main();
+
 }
 
 void menu(){
 
 }
 
+
+
 //******  main function 🎁🎁
 int main(){
     //start the projet 
+
     
-    listProduitdeTest();   // listAchatDeTest();
+    
+
+
     // AfficheUnProduit(6118000060857);
     // ModiferUnProduit(6118000060857,100);
     // supprimerUnProduit(6118000060857);
@@ -356,29 +371,32 @@ int main(){
     // minMax();
     // etatStock(3);
     // AjouterProduit(1);
+
+    // AjouterProduit(1);
+    
     int nbr ;
     printf("\t\t\t1-Ajouter un nouveau produit.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t2-Ajouter plusieurs nouveaux produits.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t3-Lister tous les produits.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t4-Acheter produits.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t5-Recherche les produits.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t6-Etat du stock.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t7-Alimenter le stock.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t8-Supprimer les produits par code.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t9-Stasitique de vente.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\t10-Exit.\n\n");
-    Sleep(300);
+    // Sleep(200);
     printf("\t\t\tchoisi une service: ");
-    Sleep(300);
+    // Sleep(200);
     scanf(" %d",&nbr);
     system("cls");
     
@@ -386,6 +404,7 @@ int main(){
     {
     case 1:
             AjouterProduit(1);
+            main();
 
         break;
     case 2:
@@ -393,10 +412,38 @@ int main(){
             int nbrPr ;
             scanf("%d",&nbrPr);
             AjouterProduit(nbr);
+           
             break;
     case 3:
             // AfficheToutLesProduit();
-            AfficheToutLesProduitAsTable();
+            // AfficheToutLesProduitAsTable();
+            printf("\t\t 1-lister tous les produits selon lordre alphabétique  croissant du nom \n");
+            printf("\t\t 2-lister tous les produits selon lordre  décroissant du prix. \n");
+            printf("\t\t 3-retour au menu \n");
+
+            int choixlister ;
+            printf("\t\t");
+            scanf("%d",&choixlister);
+            if (choixlister==1)
+            {
+                listProduitdeTest();
+                triParOrderAphabetiqueCroissant();
+                AfficheToutLesProduitAsTable();
+                
+            }
+            else if (choixlister==1)
+            {
+                triProduitParPrix();
+                listProduitdeTest();
+                AfficheToutLesProduitAsTable();
+            }
+            else{
+                system("cls");
+                main();
+                
+            }
+            
+            
             break;
 
     case 4:
@@ -412,13 +459,13 @@ int main(){
             etatStock(3);
             break;
     case 7:
-           
+        //    ModiferUnProduit();
             break;
     case 8:
-           
+        //    supprimerUnProduit();
             break;
     case 9:
-           
+        //    9-Stasitique de vente
             break;
     case 10: 
             exit(0);
@@ -428,4 +475,17 @@ int main(){
         break;
 
     }
+}
+
+
+void backTomenu(){
+    char re;
+    printf("return y/n");
+    scanf("%d",&re);
+    if (re=='y')
+    {
+        system("cls");
+        main();
+    }
+    
 }
