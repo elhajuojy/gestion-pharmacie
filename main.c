@@ -58,6 +58,32 @@ typedef struct
 Achat ListAchat[1000];
 Produit ListProudit[1000];
 
+//dynamic list 
+
+Produit* ListProuditdynamic;
+int ListProuditdynamicSize =0 ;
+void AjouterUnProduitDynamic(int NbrProduit ){
+    ListProuditdynamicSize++;
+    int index = ListProuditdynamicSize;
+    ListProuditdynamic = (Produit *)realloc(ListProuditdynamic, ListProuditdynamicSize);
+    Produit pr ; 
+    printf("***********Ajouter Produit************** %d\n", 1);
+    printf("veuillez entrer le code du produit : ");
+    scanf("%lld",&pr.code );
+    printf("veuillez entrer le nom du produit : ");
+    scanf("%s",&pr.nom );
+    printf("veuillez entrer le prix du produit : ");
+    scanf("%f",&pr.prix );
+    pr.prix_ttc = pr.prix +pr.prix*15/100;
+    printf("veuillez entrer le quantite du produit : ");
+    scanf("%d",&pr.quantite );
+    printf("bien Ajouter \n");
+    printf("\n");
+    ListProuditdynamic[index] = pr;
+    printf("code : %lld nom : %s  prix : %f quantite : %d",
+    ListProuditdynamic[index].code,ListProuditdynamic[index].nom,ListProuditdynamic[index].prix,ListProuditdynamic[index].quantite);
+}
+
 
 typedef struct 
 {
@@ -213,8 +239,6 @@ int RechercheUnProduitPos(long long int codePr){
             return posOfTheProudit =i;
             break;
         }
-        
-        
     }
     return posOfTheProudit;
     
@@ -230,7 +254,7 @@ void Alimenterlestock(){
     scanf("%d",&quantite);
    int posOfThePr=  RechercheUnProduit(code);
    ListProudit[posOfThePr].quantite =ListProudit[posOfThePr].quantite+quantite; 
-   if (posOfThePr==0)
+   if (posOfThePr==-1)
    {
     printf("Produit is not exit ");
    }else{
@@ -419,6 +443,7 @@ int menu(){
     printf("\t\t\t11-random Data.\n\n");
     // Sleep(200);
     printf("\t\t\t12-random Data.\n\n");
+    printf("\t\t\t13-Ajouter a dynamic array.\n\n");
     // Sleep(200);
     printf("\t\t\tchoisi une service: ");
     // Sleep(200);
@@ -566,7 +591,8 @@ void tiket(Achat achatProudit,Produit pr){
 //******  main function 🎁🎁
 int main(){
     //start the projet 
-
+    ListProuditdynamic =
+     (Produit*)malloc(ListProuditdynamicSize*sizeof(Produit));
     // AfficheUnProduit(6118000060857);
     // ModiferUnProduit(6118000060857,100);
     // supprimerUnProduit(6118000060857);
@@ -668,6 +694,10 @@ int main(){
     case 12: 
             listAchatDeTest();
             printAchat();
+            backTomenu();
+            break;
+    case 13: 
+            AjouterUnProduitDynamic(1);
             backTomenu();
             break;
     default:
