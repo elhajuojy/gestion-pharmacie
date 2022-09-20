@@ -61,8 +61,9 @@ Produit ListProudit[1000];
 //dynamic list 
 
 Produit* ListProuditdynamic;
-int ListProuditdynamicSize =0 ;
-void AjouterUnProduitDynamic(int NbrProduit ){
+int ListProuditdynamicSize =1 ;
+
+void AjouterUnProduitDynamic(){
     ListProuditdynamicSize++;
     int index = ListProuditdynamicSize;
     ListProuditdynamic = (Produit *)realloc(ListProuditdynamic, ListProuditdynamicSize);
@@ -469,31 +470,99 @@ void backTomenu(){
     
 }
 void printAchat();
+
 void totalprixJourneeCourante()
 {
     float totalprix=0;
-    // for (int i = 0; i < lengthListAchat; i++)
-    // {
-    //     for (int j = 0; j < lengthListProduit; j++)
-    //     {
-    //         if (ListProudit[i].code== ListAchat[j].code_achate||getDateToday().jour == ListAchat[j].date_achate.jour
-    //                 ||getDateToday().mois == ListAchat[j].date_achate.mois ||getDateToday().annee == ListAchat[j].date_achate.annee )
-    //         {
-    //             totalprix += ListProudit[i].prix_ttc;
-    //             // printf("produit | %s | vous achter %d et c'est prix est :%f\n",ListProudit[i].nom,ListAchat[j].qt_achate,ListProudit[i].prix_ttc);
-    //         }
-            
-    //     }
-        
-    // }
-    for (int i = 0; i < 19; i++)
+    for (int i = 0; i < lengthListAchat; i++)
     {
-        totalprix += ListProudit[i].prix_ttc;
+        for (int j = 0; j < lengthListProduit; j++)
+        {
+            if (ListProudit[j].code== ListAchat[i].code_proudit && getDateToday().jour == ListAchat[i].date_achate.jour
+                    && getDateToday().mois == ListAchat[i].date_achate.mois && getDateToday().annee == ListAchat[i].date_achate.annee )
+            {
+                totalprix += ListProudit[j].prix_ttc*ListAchat[i].qt_achate;
+            }
+            
+        }
+        
+    }
+ 
+    
+    printf("total prix pour c'est jour %d/%d/%d est  %.2f DH \n",getDateToday().jour,getDateToday().mois,getDateToday().annee,totalprix);
+    printAchat();
+
+}
+
+void moyenneprixJourneeCourante()
+{
+    float totalprix=0;
+    int count_produit =0 ;
+    printf("\n");
+    printf("%d \n",count_produit);
+    for (int i = 0; i < lengthListAchat; i++)
+    {
+        for (int j = 0; j < lengthListProduit; j++)
+        {
+            if (ListProudit[j].code== ListAchat[i].code_proudit && getDateToday().jour == ListAchat[i].date_achate.jour
+                && getDateToday().mois == ListAchat[i].date_achate.mois && getDateToday().annee == ListAchat[i].date_achate.annee )
+            {
+                totalprix += ListProudit[j].prix_ttc*ListAchat[i].qt_achate;
+                count_produit += ListAchat[i].qt_achate;
+            }
+            
+        }
+        
     }
     
     
-    printf("total prix pour c'est jour %d/%d/%d est  %f \n",getDateToday().jour,getDateToday().mois,getDateToday().annee,totalprix);
+    printf("total =  %f \n",totalprix);
+    printf("count produit = %d \n",count_produit);
+    float avg = totalprix/count_produit;
+    printf("moynne prix pour c'est jour %d/%d/%d est  %.2f DH \n",getDateToday().jour,getDateToday().mois,getDateToday().annee,avg);
+    printf("you sold this many products %d \n",count_produit);
     printAchat();
+
+}
+
+Produit MinMaxProduit(int minOrMax)
+{
+    
+    Produit maxProduit=ListProudit[0];
+    Produit minProduit =ListProudit[0];
+    int count_produit =0 ;
+    for (int i = 0; i < lengthListAchat; i++)
+    {
+        for (int j = 0; j < lengthListProduit; j++)
+        {
+            if (ListProudit[j].code== ListAchat[i].code_proudit && getDateToday().jour == ListAchat[i].date_achate.jour
+                && getDateToday().mois == ListAchat[i].date_achate.mois && getDateToday().annee == ListAchat[i].date_achate.annee )
+            {
+                if(maxProduit.prix_ttc<ListProudit[j].prix_ttc){
+                    maxProduit = ListProudit[j];
+                }
+                if(minProduit.prix_ttc>ListProudit[j].prix_ttc){
+                    minProduit = ListProudit[j];   
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    if (minOrMax ==0 )
+    {
+        return minProduit;   
+    }
+    else{
+    
+        return maxProduit;
+    }
+    
+    
+    
+    
 
 }
 
@@ -517,17 +586,33 @@ void Statistiquedevente(){
     printf("\t\t -2 Afficher la moyenne des prix des produits vendus en journee courante \n");
     printf("\t\t -3 Afficher le Max des prix des produits vendus en journee courante \n");
     printf("\t\t -4 Afficher le Min des prix des produits vendus en journee courante \n");
-    
-    
+    Produit minProduit =  MinMaxProduit(0);
+    Produit maxProduit =  MinMaxProduit(1);
     int choix ;
+    printf("chosier un choix");
     scanf("%d",&choix);
     switch (choix)
     {
     case 1:
         // minMax();
         totalprixJourneeCourante();
+        backTomenu();
         break;
-    
+    case 2 :
+        moyenneprixJourneeCourante();
+        backTomenu();
+     case 3:
+        // minMax();
+        
+        printf("\t Min des prix des produits %lld vendus en journee courante %s => prix est %.2f",minProduit.code,minProduit.nom,minProduit.prix_ttc);
+        backTomenu();
+        break;
+    case 4 :
+        
+        printf("\t Max des prix des produits %lld vendus en journee courante %s => prix est %.2f",maxProduit.code,maxProduit.nom,maxProduit.prix_ttc);
+        backTomenu();
+        
+        break; 
     default:
         break;
     }
@@ -556,7 +641,7 @@ void Acheterproduit(){
         scanf("%d",&achterpr.qt_achate);
         if (ListProudit[posoftheProudct].quantite<achterpr.qt_achate)
         {
-            printf("il n'y a pas assez de produits pour vous ");
+            printf("il n'y a pas assez de produits pour vous reste de stock(%d)",ListProudit[posoftheProudct].quantite);
         }
         else{
         
@@ -577,8 +662,8 @@ void tiket(Achat achatProudit,Produit pr){
     printf("\n");
     printf("=============================================");
     printf("\n");
-    printf("code d'achat : %d\n",achatProudit.code_achate);
-    printf("code d produit achate  : %d\n",achatProudit.code_proudit);
+    printf("code d'achat : %lld\n",achatProudit.code_achate);
+    printf("code d produit achate  : %lld\n",achatProudit.code_proudit);
     printf("date : %d/%d/%d\n",achatProudit.date_achate.jour,achatProudit.date_achate.mois,achatProudit.date_achate.annee);
     printf("quantite x %d \n",achatProudit.qt_achate);
     float total = pr.prix_ttc*achatProudit.qt_achate;
@@ -592,7 +677,7 @@ void tiket(Achat achatProudit,Produit pr){
 int main(){
     //start the projet 
     ListProuditdynamic =
-     (Produit*)malloc(ListProuditdynamicSize*sizeof(Produit));
+    (Produit*)malloc(ListProuditdynamicSize*sizeof(Produit));
     // AfficheUnProduit(6118000060857);
     // ModiferUnProduit(6118000060857,100);
     // supprimerUnProduit(6118000060857);
@@ -697,7 +782,14 @@ int main(){
             backTomenu();
             break;
     case 13: 
-            AjouterUnProduitDynamic(1);
+            printf("entre le number de produit cree");
+            int numberPr ;
+            scanf("%d",&numberPr);
+            for (int i = 0; i < numberPr; i++)
+            {
+                AjouterUnProduitDynamic();        
+            }
+            
             backTomenu();
             break;
     default:
