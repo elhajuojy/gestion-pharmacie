@@ -18,18 +18,13 @@ typedef struct
 
 date getDateToday () {
    time_t now = time(NULL);
-   
-//    struct tm *gm_time = gmtime(&now);
+
    struct tm *gm_time = localtime(&now);
    
    date today ;
    today.jour = gm_time->tm_mday;
    today.mois = gm_time->tm_mon+1;
    today.annee = gm_time->tm_year+1900;
-//    printf("%d\n",gm_time->tm_hour);
-//    printf("%d\n",gm_time->tm_min);
-//    printf("%d/%d/%d",today.jour,today.mois,today.annee);
-    
     return today;
 }
 // Produit struct
@@ -48,8 +43,6 @@ typedef struct
 {
     long long int code_achate;
     long long int code_proudit;
-    // float *cin_client;
-    // Produit produit;
     date date_achate;
     int qt_achate;
 
@@ -65,12 +58,12 @@ int lengthListAchat =10;
 Produit* ListProuditdynamic;
 int ListProuditdynamicSize =1 ;
 
+void afficheDynamicListProduit();
 void AjouterUnProduitDynamic(){
-    ListProuditdynamicSize++;
-    int index = ListProuditdynamicSize;
-    ListProuditdynamic = (Produit *)realloc(ListProuditdynamic, ListProuditdynamicSize);
+    int index = ListProuditdynamicSize-1;
+    ListProuditdynamic = (Produit *)realloc(ListProuditdynamic, ListProuditdynamicSize++);
     Produit pr ; 
-    printf("***********Ajouter Produit************** %d\n", 1);
+    printf("\n***********Ajouter Produit************** %d\n", 1);
     printf("veuillez entrer le code du produit : ");
     scanf("%lld",&pr.code );
     printf("veuillez entrer le nom du produit : ");
@@ -80,11 +73,14 @@ void AjouterUnProduitDynamic(){
     pr.prix_ttc = pr.prix +pr.prix*15/100;
     printf("veuillez entrer le quantite du produit : ");
     scanf("%d",&pr.quantite );
-    printf("bien Ajouter \n");
+    printf("\n***********@bien Ajouter@************** %d\n", 1);
     printf("\n");
     ListProuditdynamic[index] = pr;
-    printf("code : %lld nom : %s  prix : %f quantite : %d",
+    printf(" index =>%d, code : %lld nom : %s  prix : %f quantite : %d",index,
     ListProuditdynamic[index].code,ListProuditdynamic[index].nom,ListProuditdynamic[index].prix,ListProuditdynamic[index].quantite);
+    // ListProuditdynamicSize++;
+    afficheDynamicListProduit();
+    
 }
 
 
@@ -92,7 +88,7 @@ void afficheDynamicListProduit()
 {
     for (int i = 0; i < ListProuditdynamicSize; i++)
     {
-        printf("les information =>%ldd , %s , %f , %f , %d \n",ListProuditdynamic[i].code,
+        printf("les information =>%lld , %s , %f , %f , %d \n",ListProuditdynamic[i].code,
         ListProuditdynamic[i].nom,ListProuditdynamic[i].prix ,ListProuditdynamic[i].prix_ttc,ListProuditdynamic[i].quantite);
     }
     
@@ -117,14 +113,68 @@ int main();
 //! enums and ints  
 enum sort {ascending , descending}; 
 
+void saveDataToFileProduit(){
+    FILE* fProduittr;
+    
+    fProduittr = fopen("produits","w");
+    //* if the file doesn't exist"s it will be created
+    for (int i = 0; i <lengthListProduit ; i++)
+    {
+        fprintf(fProduittr,"%lld  %s  %f  %f  %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix
+        ,ListProudit[i].prix_ttc,ListProudit[i].quantite);
+    }
+    fclose(fProduittr);
+}  
+
+
+void saveDataToFileAchate(){
+    FILE* fAchate;
+    
+    fAchate = fopen("achates","w");
+    //* if the file doesn't exist"s it will be created
+    for (int i = 0; i <lengthListAchat ; i++)
+    {
+        fprintf(fAchate,"%lld  %lld  %d%d%d  %d \n",ListAchat[i].code_achate,ListAchat[i].code_proudit,ListAchat[i].date_achate.jour
+        ,ListAchat[i].date_achate.mois,ListAchat[i].date_achate.annee,ListAchat[i].qt_achate);
+    }
+    fclose(fAchate);
+}  
+
+void uploadDataFromFileProduit(FILE *f)
+{
+    Produit p ; 
+    int index =0;
+    while (fscanf(f,"%lld%s%f%f%d",&p.code,p.nom,&p.prix,&p.prix_ttc,&p.quantite) != EOF)
+    {
+        ListProudit[index] = p ;
+        index++;
+    }
+    
+    
+}
+
+
+void uploadDataFromFileAchat(FILE *f)
+{
+    Achat a ; 
+    int index =0;
+    while (fscanf(f,"%lld%lld%d%d%d%d",&a.code_achate,&a.code_proudit,&a.date_achate.jour,&a.date_achate.mois,&a.date_achate.annee,&a.qt_achate) != EOF)
+    {
+        ListAchat[index] = a ;
+        index++;
+    }
+    
+    
+}
 
 //random Data
+
 
 void listProduitdeTest(){
     Produit c1 = {6118000060154 ,"GLUCOR",200,230,20};
     Produit c2 = {6118000241324 ,"REVOCIR",100,115,10};
     Produit c3 = {6118000070573 ,"LISASPIN",140,230,20};
-    Produit c4 = {6118000061106 ,"ASPEGIC ENF",200,340,4};
+    Produit c4 = {6118000061106 ,"ASPEGIC_ENF",200,340,4};
     Produit c5 = {6118000060857 ,"SURGAM",20,25,10};
     Produit c6 = {6118000061243 ,"EXACYL",10,12,50};
     Produit c7 = {6118001141357 ,"ZENTEL",340.34,30,11};
@@ -690,28 +740,65 @@ void tiket(Achat achatProudit,Produit pr){
     printf("\n");
 }
 
+void rechecheParQuantite(){
+    printf(" donner les Quantite svp : ");
+    int qtttn ;
+    scanf("%d",&qtttn);
+    for (int i = 0; i < lengthListProduit; i++)
+    {
+        
+        if (ListProudit[i].quantite==qtttn)
+        {
+            AfficheUnProduit(ListProudit[i].code);
+            
+        }
+        
+    }
+    
+};
+
+void RechercherlesproduitsPar(){
+        printf("\t\t 1-par code \n");
+        printf("\t\t 2-par Quantite \n");
+        
+        int choix;
+        scanf("%d",&choix);
+        switch (choix)
+        {
+        case 1:
+            printf("Recherche les produits donner les number svp : ");
+            long long  int codePr ;
+            scanf("%lld",&codePr);
+            AfficheUnProduit(codePr);
+            break;
+        case 2:
+           
+            rechecheParQuantite();
+            
+        default:
+            break;
+        }       
+        
+        
+
+    
+};
+
 //******  main function 🎁🎁
 int main(){
+
     //start the projet 
+    FILE* fProduittr;
+    //FILE* fAchat;
+    //modes :r=> read
+    fProduittr = fopen("produits","r");
+    //fAchat = fopen("achates","r");
+    
+    uploadDataFromFileProduit(fProduittr);
+    
     ListProuditdynamic =
     (Produit*)malloc(ListProuditdynamicSize*sizeof(Produit));
-    // AfficheUnProduit(6118000060857);
-    // ModiferUnProduit(6118000060857,100);
-    // supprimerUnProduit(6118000060857);
-    // printf("before \n");
-    // AfficheToutLesProduit();
-    // printf("after \n");
-    // AfficheToutLesProduit();
-    // AfficheToutLesProduitAsTable();
-    // triParOrderAphabetiqueCroissant();
-    // triProduitParPrix();
-    // AfficheToutLesProduitAsTable();
-    // minMax();
-    // etatStock(3);
-    // AjouterProduit(1);
 
-    // AjouterProduit(1);
-    
     int nbr  = menu();
    
     
@@ -760,10 +847,7 @@ int main(){
             backTomenu();
             break;
     case 5:
-            printf("Recherche les produits donner les number svp : ");
-            long long  int codePr ;
-            scanf("%lld",&codePr);
-            AfficheUnProduit(codePr);
+            RechercherlesproduitsPar();
             backTomenu();
             break;
     case 6:
@@ -786,6 +870,8 @@ int main(){
             break;
     
     case 10: 
+            saveDataToFileAchate();
+            saveDataToFileProduit();
             exit(0);
             break;
     
@@ -806,7 +892,11 @@ int main(){
             {
                 AjouterUnProduitDynamic();        
             }
-            
+            main();
+            // backTomenu();
+            break;
+    case 14 :
+            afficheDynamicListProduit();
             backTomenu();
             break;
     default:
