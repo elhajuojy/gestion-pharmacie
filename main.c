@@ -338,13 +338,13 @@ void AfficheToutLesProduit(){
     }
      printf("--------------------------------------------------------\n");
 }
+
 //affiche Tout les Poudit As table 
 void AfficheToutLesProduitAsTable(){ 
     printf("code \t\t nom \t\t prix \t\t\t quantite\n");
     printf("-------------------------------------------------------------------\n");
     for (int i = 0; i < lengthListProduit; i++)
     {
-        // printf(" code :%lld || nom : %s  || prix : %.2f || prix ttc : %.2f || quantite :  %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].prix_ttc,ListProudit[i].quantite);
         printf("%lld \t %s \t %.2f DH \t\t %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].quantite);
         printf("-------------------------------------------------------------------\n");
     }
@@ -431,7 +431,6 @@ void minMax(){
             max_pos = i;
         }
     }
-    // printf("les pos min %d les pos max %d",min_pos,max_pos);
     printf("max prix est  %s =>%.2f DH \n",ListProudit[max_pos].nom,max_prix);
     printf("min prix est %s =>%.2f DH \n ",ListProudit[min_pos].nom,min_prix);
 }
@@ -460,9 +459,7 @@ void AjouterProduit(int NbrProduit){
         scanf("%s",&pr.nom );
         printf("veuillez entrer le prix du produit : ");
         scanf("%f",&pr.prix );
-        // printf("veuillez entrer le prix ttc du produit : ");
         pr.prix_ttc = pr.prix +pr.prix*15/100;
-        // scanf("%f",&pr.prix_ttc );
         printf("veuillez entrer le quantite du produit : ");
         scanf("%d",&pr.quantite );
         printf("bien Ajouter \n");
@@ -627,27 +624,16 @@ Produit MinMaxProduit(int minOrMax)
         return maxProduit;
     }
     
-    
-    
-    
-
 }
 
 void printAchat(){
-    // long long int code_achate;
-    // long long int code_proudit;
-    // // float *cin_client;
-    // // Produit produit;
-    // date date_achate;
-    // int qt_achate;
     for (int i = 0; i < 10; i++)
     {
         printf("%lld =>%lld=> %d/%d/%d => %d \n",ListAchat[i].code_achate,ListAchat[i].code_proudit,ListAchat[i].date_achate.jour
         ,ListAchat[i].date_achate.mois,ListAchat[i].date_achate.annee,ListAchat[i].qt_achate);
     }
-    
-
 }
+
 void Statistiquedevente(){
     printf("\t\t -1 Afficher le total des prix des produits vendus en journee courante \n");
     printf("\t\t -2 Afficher la moyenne des prix des produits vendus en journee courante \n");
