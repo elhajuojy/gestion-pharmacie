@@ -56,8 +56,10 @@ typedef struct
 } Achat;
 
 Achat ListAchat[1000];
-Produit ListProudit[1000];
 
+Produit ListProudit[1000];
+int lengthListProduit =20;
+int lengthListAchat =10;
 //dynamic list 
 
 Produit* ListProuditdynamic;
@@ -86,6 +88,18 @@ void AjouterUnProduitDynamic(){
 }
 
 
+void afficheDynamicListProduit()
+{
+    for (int i = 0; i < ListProuditdynamicSize; i++)
+    {
+        printf("les information =>%ldd , %s , %f , %f , %d \n",ListProuditdynamic[i].code,
+        ListProuditdynamic[i].nom,ListProuditdynamic[i].prix ,ListProuditdynamic[i].prix_ttc,ListProuditdynamic[i].quantite);
+    }
+    
+
+
+}
+
 typedef struct 
 {
     char *cin;
@@ -102,8 +116,7 @@ int main();
 
 //! enums and ints  
 enum sort {ascending , descending}; 
-int lengthListProduit =20;
-int lengthListAchat =10;
+
 
 //random Data
 
@@ -422,6 +435,9 @@ void AjouterProduit(int NbrProduit){
 
 int menu(){
     int nbr ;
+    printf("\n");
+    printf("\t\t\tGestion de Pharmacie \n");
+    printf("\n");
     printf("\t\t\t1-Ajouter un nouveau produit.\n\n");
     // Sleep(200);
     printf("\t\t\t2-Ajouter plusieurs nouveaux produits.\n\n");
@@ -445,6 +461,7 @@ int menu(){
     // Sleep(200);
     printf("\t\t\t12-random Data.\n\n");
     printf("\t\t\t13-Ajouter a dynamic array.\n\n");
+    printf("\t\t\t14-Affiche a dynamic array.\n\n");
     // Sleep(200);
     printf("\t\t\tchoisi une service: ");
     // Sleep(200);
