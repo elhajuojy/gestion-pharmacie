@@ -889,6 +889,7 @@ int main(){
             break;
     case 11 :
             Bouns();
+            backTomenu();
     default:
     printf("entrer correct choix.");
         break;
