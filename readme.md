@@ -33,13 +33,3 @@ l’application de gestion de pharmacie  est une application console. Qui a pour
 
   - lister tous les produits selon l’ordre alphabétique  croissant du nom.
   - lister tous les produits selon l’ordre  décroissant du prix.
-
-- [x] login to  an account
-
-  - the user can login to his account with accountnumber and password that you give him in the creating account time.
-  - if the password and accountnumber are correct send him to his profile account
-
-- [x] seend money
-  - the user can seend money to another account by accountnumber and the usermust have enough money to sent first if he doesn't have enough money to sent make sure to notify him
-
-- [x] exsit anytime
