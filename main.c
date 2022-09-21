@@ -51,7 +51,7 @@ typedef struct
 Achat ListAchat[1000];
 
 Produit ListProudit[1000];
-int lengthListProduit =20;
+int lengthListProduit =0;
 int lengthListAchat =0;
 //dynamic list 
 
@@ -150,7 +150,7 @@ void loadDataFromFileProduit(FILE *f)
         index++;
     }
     
-    
+    lengthListProduit = index;
 }
 
 
@@ -164,6 +164,7 @@ void loadDataFromFileAchat(FILE *f)
         index++;
     }
     
+    lengthListAchat = index;
     
 }
 
@@ -171,6 +172,7 @@ void loadDataFromFileAchat(FILE *f)
 
 
 void listProduitdeTest(){
+    lengthListProduit =20;
     Produit c1 = {6118000060154 ,"GLUCOR",200,230,20};
     Produit c2 = {6118000241324 ,"REVOCIR",100,115,10};
     Produit c3 = {6118000070573 ,"LISASPIN",140,230,20};
@@ -215,7 +217,7 @@ void listProduitdeTest(){
 };
 void listAchatDeTest(){
 
-
+    lengthListAchat =9;
    date d1 = {17,9,2022};
    date d2 = {17,9,2022};
    date d3 = {17,9,2022};
@@ -232,6 +234,7 @@ void listAchatDeTest(){
    Achat a7 = {7,6118000060154,d6,2};
    Achat a8 = {8,6118000241324,d5,1};
    Achat a9 ={9,6118001200818,todayMe,3};
+   
 
    ListAchat[0]=a1;
    ListAchat[1]=a2;
@@ -929,7 +932,6 @@ void Bouns(){
                 AjouterUnProduitDynamic();        
             }
             main();
-            // backTomenu();
             break;
     case 4 :
             afficheDynamicListProduit();
