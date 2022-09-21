@@ -140,7 +140,7 @@ void saveDataToFileAchate(){
     fclose(fAchate);
 }  
 
-void uploadDataFromFileProduit(FILE *f)
+void loadDataFromFileProduit(FILE *f)
 {
     Produit p ; 
     int index =0;
@@ -154,7 +154,7 @@ void uploadDataFromFileProduit(FILE *f)
 }
 
 
-void uploadDataFromFileAchat(FILE *f)
+void loadDataFromFileAchat(FILE *f)
 {
     Achat a ; 
     int index =0;
@@ -343,11 +343,11 @@ void AfficheToutLesProduit(){
 void AfficheToutLesProduitAsTable(){ 
     printf("code \t\t nom \t\t prix \t\t\t prix ttc quantite\n");
     
-    printf("-------------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------------------\n");
     for (int i = 0; i < lengthListProduit; i++)
     {
         printf("%lld \t %s \t %.2f DH \t\t %.2f DH  %d\n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].prix_ttc,ListProudit[i].quantite);
-        printf("-------------------------------------------------------------------\n");
+        printf("----------------------------------------------------------------------------\n");
     }
 }
 
@@ -508,29 +508,29 @@ int menu(){
     printf("\t\t\tGestion de Pharmacie \n");
     printf("\n");
     printf("\t\t\t1-Ajouter un nouveau produit.\n\n");
-    // Sleep(200);
+    Sleep(200);
     printf("\t\t\t2-Ajouter plusieurs nouveaux produits.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\t3-Lister tous les produits.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\t4-Acheter produits.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\t5-Recherche les produits.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\t6-Etat du stock.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\t7-Alimenter le stock.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\t8-Supprimer les produits par code.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\t9-Stasitique de vente.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\t10-Exit.\n\n");
     
     printf("\t\t\t11-Bouns.\n\n");
-    // Sleep(200);
+    Sleep(100);
     printf("\t\t\tchoisi une service: ");
-    // Sleep(200);
+    Sleep(100);
     scanf(" %d",&nbr);
     system("cls");
     
@@ -807,7 +807,7 @@ int main(){
     fProduittr = fopen("produits","r");
     //fAchat = fopen("achates","r");
     
-    //uploadDataFromFileProduit(fProduittr);
+    // uploadDataFromFileProduit(fProduittr);
     
     ListProuditdynamic =
     (Produit*)malloc(ListProuditdynamicSize*sizeof(Produit));
@@ -899,6 +899,12 @@ int main(){
 
 
 void Bouns(){
+    //start the projet 
+    FILE* fProduittr;
+    FILE* fAchat;
+    //modes :r=> read
+    fProduittr = fopen("produits","r");
+    fAchat = fopen("achates","r");  
     int nbr ;
     printf("\t\t\t 1-random Data (list Produit de Test).\n\n");
     // Sleep(200); 
@@ -906,6 +912,7 @@ void Bouns(){
     printf("\t\t\t 3-Ajouter a dynamic array.\n\n");
     printf("\t\t\t 4-Affiche a dynamic array.\n\n");
     printf("\t\t\t 5-Enregistrer dans un fichier.\n\n");
+    printf("\t\t\t 6-charger les donnees des fichiers.\n\n");
     
     // Sleep(200);
     printf("\t\t\tchoisi une service: ");
@@ -937,8 +944,13 @@ void Bouns(){
             backTomenu();
             break;
     case 5 :
-            
+            saveDataToFileProduit();
+            saveDataToFileAchate();
             break;
+    case 6 :
+        
+        loadDataFromFileProduit(fProduittr);
+        loadDataFromFileAchat(fAchat);
     default:
         backTomenu();
         break;
