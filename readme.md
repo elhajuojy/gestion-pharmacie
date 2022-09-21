@@ -53,3 +53,4 @@ Vous pouvez utiliser les fichiers afin d’enregistrer les informations du produ
 **N.B: L’utilisateur doit retourner au menu principal après chaque opération**
 
 *Implémenter les fonctionnalités citées au menu principal. Utiliser les algorithmes de recherche et de tri qui vous conviennent.*
+- 📫 Contact **elhajuojye@gmail.com**
