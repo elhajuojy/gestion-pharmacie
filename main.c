@@ -376,8 +376,6 @@ void supprimerUnProduit(){
     if(posCodePrSupprimer==-1)
     {
         printf("ce produit n'existe pas");
-    
-    
     }
     for (int i = posCodePrSupprimer; i < lengthListProduit; i++)
     {
@@ -432,7 +430,24 @@ void triParOrderAphabetiqueCroissant(){
                 
             
         }
-    }
+        
+        }
+        for (C = 'a'; C <= 'z'; ++C)
+        {
+            
+            for (int i = 0; i < 20; i++)
+            {
+                char cc = C;
+                char firstword =ListProudit[i].nom[0];
+                if (cc==firstword )
+                {
+                    temp = ListProudit[i];
+                    ListProudit[i] = ListProudit[counter];
+                    ListProudit[counter] = temp;
+                    counter++; 
+                }
+        }
+        }
 }
 //menu 
 
@@ -480,23 +495,34 @@ void AjouterProduit(int NbrProduit){
         printf("***********Ajouter Produit************** %d\n", i+1);
         printf("veuillez entrer le code du produit : ");
         scanf("%lld",&pr.code );
-        printf("veuillez entrer le nom du produit : ");
-        scanf("%s",&pr.nom );
-        printf("veuillez entrer le prix du produit : ");
-        scanf("%f",&pr.prix );
-        pr.prix_ttc = pr.prix +pr.prix*15/100;
-        printf("veuillez entrer le quantite du produit : ");
-        scanf("%d",&pr.quantite );
-        printf("bien Ajouter \n");
-        printf("\n");
-        ListProudit[lengthListProduit] = pr;
-        AfficheProduitDansPosition(lengthListProduit);
-        lengthListProduit ++;
+        int pos = RechercheUnProduitPos(pr.code);
+        if (pos==-1)
+        {
+            printf("veuillez entrer le nom du produit : ");
+            scanf("%s",&pr.nom );
+            printf("veuillez entrer le prix du produit : ");
+            scanf("%f",&pr.prix );
+            pr.prix_ttc = pr.prix +pr.prix*15/100;
+            printf("veuillez entrer le quantite du produit : ");
+            scanf("%d",&pr.quantite );
+            printf("bien Ajouter \n");
+            printf("\n");
+            ListProudit[lengthListProduit] = pr;
+            AfficheProduitDansPosition(lengthListProduit);
+            lengthListProduit ++;
+        }else
+        {
+            printf("produit deja exsit\n");
+        }
+        
+        
+      
 
     }
+    printf("\n");
     while (c != 10)
     {
-        printf("🔃🔃");
+        printf("==");
         c++;
         Sleep(500);
     }
@@ -508,10 +534,12 @@ void AjouterProduit(int NbrProduit){
 int menu(){
     int nbr ;
     printf("\n");
-    printf("\t\t\tGestion de Pharmacie \n");
+    printf("\t\t\t    ==========================\n");
+    printf("\t\t\t      Gestion de Pharmacie    \n");
+    printf("\t\t\t    ==========================\n");
     printf("\n");
     printf("\t\t\t1-Ajouter un nouveau produit.\n\n");
-    Sleep(200);
+    Sleep(100);
     printf("\t\t\t2-Ajouter plusieurs nouveaux produits.\n\n");
     Sleep(100);
     printf("\t\t\t3-Lister tous les produits.\n\n");
@@ -529,7 +557,7 @@ int menu(){
     printf("\t\t\t9-Stasitique de vente.\n\n");
     Sleep(100);
     printf("\t\t\t10-Exit.\n\n");
-    
+    Sleep(100);
     printf("\t\t\t11-Bouns.\n\n");
     Sleep(100);
     printf("\t\t\tchoisi une service: ");
