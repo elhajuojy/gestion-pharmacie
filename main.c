@@ -52,7 +52,7 @@ Achat ListAchat[1000];
 
 Produit ListProudit[1000];
 int lengthListProduit =20;
-int lengthListAchat =10;
+int lengthListAchat =0;
 //dynamic list 
 
 Produit* ListProuditdynamic;
@@ -63,7 +63,7 @@ void AjouterUnProduitDynamic(){
     int index = ListProuditdynamicSize-1;
     ListProuditdynamic = (Produit *)realloc(ListProuditdynamic, ListProuditdynamicSize++);
     Produit pr ; 
-    printf("\n***********Ajouter Produit************** %d\n", 1);
+    printf("\n***********Ajouter Produit************** %d\n");
     printf("veuillez entrer le code du produit : ");
     scanf("%lld",&pr.code );
     printf("veuillez entrer le nom du produit : ");
@@ -73,7 +73,7 @@ void AjouterUnProduitDynamic(){
     pr.prix_ttc = pr.prix +pr.prix*15/100;
     printf("veuillez entrer le quantite du produit : ");
     scanf("%d",&pr.quantite );
-    printf("\n***********@bien Ajouter@************** %d\n", 1);
+    printf("\n***********@bien Ajouter@************** %d\n");
     printf("\n");
     ListProuditdynamic[index] = pr;
     printf(" index =>%d, code : %lld nom : %s  prix : %f quantite : %d",index,
@@ -177,7 +177,7 @@ void listProduitdeTest(){
     Produit c4 = {6118000061106 ,"ASPEGIC_ENF",200,340,4};
     Produit c5 = {6118000060857 ,"SURGAM",20,25,10};
     Produit c6 = {6118000061243 ,"EXACYL",10,12,50};
-    Produit c7 = {6118001141357 ,"ZENTEL",340.34,30,11};
+    Produit c7 = {6118001141357 ,"ZENTEL",340.34,365.,11};
     Produit c8 = {6118000022251 ,"ZYLORIC",30,33,1};
     Produit c9 = {6118001081288 ,"XATRAL",222,250,2};
     Produit c10 ={6118001182657 ,"AMIKLIN",230,280,2};
@@ -341,14 +341,28 @@ void AfficheToutLesProduit(){
 
 //affiche Tout les Poudit As table 
 void AfficheToutLesProduitAsTable(){ 
-    printf("code \t\t nom \t\t prix \t\t\t quantite\n");
+    printf("code \t\t nom \t\t prix \t\t\t prix ttc quantite\n");
+    
     printf("-------------------------------------------------------------------\n");
     for (int i = 0; i < lengthListProduit; i++)
     {
-        printf("%lld \t %s \t %.2f DH \t\t %d \n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].quantite);
+        printf("%lld \t %s \t %.2f DH \t\t %.2f DH  %d\n",ListProudit[i].code,ListProudit[i].nom,ListProudit[i].prix,ListProudit[i].prix_ttc,ListProudit[i].quantite);
         printf("-------------------------------------------------------------------\n");
     }
 }
+
+void AfficheToutLesAchatAsTable(){ 
+    printf("code achate \t\t code produit \t\t date achate \t\t\t quantite\n");
+    
+    printf("-------------------------------------------------------------------\n");
+    for (int i = 0; i < lengthListAchat; i++)
+    {
+        printf("%lld \t %lld \t %d/%d/%d  \t\t %d  \n",ListAchat[i].code_achate,ListAchat[i].code_proudit,ListAchat[i].date_achate.jour,ListAchat[i].date_achate.mois
+        ,ListAchat[i].date_achate.annee,ListAchat[i].qt_achate);
+        printf("-------------------------------------------------------------------\n");
+    }
+}
+
 
 void supprimerUnProduit(){
     long long int code ;
@@ -356,12 +370,20 @@ void supprimerUnProduit(){
     printf("svp introduit le code produit :");
     scanf("%lld",&code);
     int posCodePrSupprimer = RechercheUnProduitPos(code);
+    if(posCodePrSupprimer==-1)
+    {
+        printf("ce produit n'existe pas");
+    
+    
+    }
     for (int i = posCodePrSupprimer; i < lengthListProduit; i++)
     {
+        
         ListProudit[i] = ListProudit[i+1];
+        lengthListProduit--;
+        printf("bien Supprimer %s",ListProudit[i].nom);
+        
     }
-    printf("======================================\n");
-    AfficheToutLesProduit();
 }
 
 
@@ -504,11 +526,8 @@ int menu(){
     printf("\t\t\t9-Stasitique de vente.\n\n");
     // Sleep(200);
     printf("\t\t\t10-Exit.\n\n");
-    printf("\t\t\t11-random Data.\n\n");
-    // Sleep(200);
-    printf("\t\t\t12-random Data.\n\n");
-    printf("\t\t\t13-Ajouter a dynamic array.\n\n");
-    printf("\t\t\t14-Affiche a dynamic array.\n\n");
+    
+    printf("\t\t\t11-Bouns.\n\n");
     // Sleep(200);
     printf("\t\t\tchoisi une service: ");
     // Sleep(200);
@@ -534,6 +553,7 @@ void backTomenu(){
     
 }
 void printAchat();
+void Bouns();
 
 void totalprixJourneeCourante()
 {
@@ -554,7 +574,7 @@ void totalprixJourneeCourante()
  
     
     printf("total prix pour c'est jour %d/%d/%d est  %.2f DH \n",getDateToday().jour,getDateToday().mois,getDateToday().annee,totalprix);
-    printAchat();
+    
 
 }
 
@@ -584,9 +604,8 @@ void moyenneprixJourneeCourante()
     printf("count produit = %d \n",count_produit);
     float avg = totalprix/count_produit;
     printf("moynne prix pour c'est jour %d/%d/%d est  %.2f DH \n",getDateToday().jour,getDateToday().mois,getDateToday().annee,avg);
-    printf("you sold this many products %d \n",count_produit);
-    printAchat();
-
+    printf("vous avez vendu cette quantite de produits %d \n",count_produit);
+    
 }
 
 Produit MinMaxProduit(int minOrMax)
@@ -637,8 +656,9 @@ void printAchat(){
 void Statistiquedevente(){
     printf("\t\t -1 Afficher le total des prix des produits vendus en journee courante \n");
     printf("\t\t -2 Afficher la moyenne des prix des produits vendus en journee courante \n");
-    printf("\t\t -3 Afficher le Max des prix des produits vendus en journee courante \n");
-    printf("\t\t -4 Afficher le Min des prix des produits vendus en journee courante \n");
+    printf("\t\t -3 Afficher le Min des prix des produits vendus en journee courante \n");
+    printf("\t\t -4 Afficher le Max des prix des produits vendus en journee courante \n");
+    printf("\t\t 5- affiche tout les produit vende en jounne courante\n");
     Produit minProduit =  MinMaxProduit(0);
     Produit maxProduit =  MinMaxProduit(1);
     int choix ;
@@ -649,6 +669,7 @@ void Statistiquedevente(){
     case 1:
         // minMax();
         totalprixJourneeCourante();
+        
         backTomenu();
         break;
     case 2 :
@@ -666,6 +687,9 @@ void Statistiquedevente(){
         backTomenu();
         
         break; 
+    case 5 :
+        AfficheToutLesAchatAsTable();
+        backTomenu();
     default:
         break;
     }
@@ -685,6 +709,7 @@ void Acheterproduit(){
     
     if (posoftheProudct==-1)
     {
+        
         printf("ce produit il n'existe pas");
     }
     else
@@ -698,7 +723,9 @@ void Acheterproduit(){
         }
         else{
         
+            printf("ListProudit[posoftheProudct].quantite= %d\n",ListProudit[posoftheProudct].quantite);
             ListProudit[posoftheProudct].quantite =ListProudit[posoftheProudct].quantite-achterpr.qt_achate; 
+            printf("ListProudit[posoftheProudct].quantite =  %d\n",ListProudit[posoftheProudct].quantite);
             ListAchat[lengthListAchat] = achterpr;
             lengthListAchat++;
             tiket(achterpr,ListProudit[posoftheProudct]);
@@ -780,7 +807,7 @@ int main(){
     fProduittr = fopen("produits","r");
     //fAchat = fopen("achates","r");
     
-    uploadDataFromFileProduit(fProduittr);
+    //uploadDataFromFileProduit(fProduittr);
     
     ListProuditdynamic =
     (Produit*)malloc(ListProuditdynamicSize*sizeof(Produit));
@@ -860,17 +887,41 @@ int main(){
             saveDataToFileProduit();
             exit(0);
             break;
+    case 11 :
+            Bouns();
+    default:
+    printf("entrer correct choix.");
+        break;
+
+    }
+}
+
+
+
+void Bouns(){
+    int nbr ;
+    printf("\t\t\t 1-random Data (list Produit de Test).\n\n");
+    // Sleep(200); 
+    printf("\t\t\t 2-random Data. (list Achat De Test)\n\n");
+    printf("\t\t\t 3-Ajouter a dynamic array.\n\n");
+    printf("\t\t\t 4-Affiche a dynamic array.\n\n");
+    printf("\t\t\t 5-Enregistrer dans un fichier.\n\n");
     
-    case 11: 
+    // Sleep(200);
+    printf("\t\t\tchoisi une service: ");
+    scanf("%d",&nbr);
+    switch (nbr)
+    {
+    case 1: 
             listProduitdeTest();
             backTomenu();
             break;
-    case 12: 
+    case 2: 
             listAchatDeTest();
             printAchat();
             backTomenu();
             break;
-    case 13: 
+    case 3: 
             printf("entre le number de produit cree");
             int numberPr ;
             scanf("%d",&numberPr);
@@ -881,14 +932,17 @@ int main(){
             main();
             // backTomenu();
             break;
-    case 14 :
+    case 4 :
             afficheDynamicListProduit();
             backTomenu();
             break;
+    case 5 :
+            
+            break;
     default:
-    printf("entrer correct choix.");
+        backTomenu();
         break;
-
     }
+    system("cls");
+    
 }
-
