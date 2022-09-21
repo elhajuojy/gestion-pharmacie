@@ -8,41 +8,38 @@ l’application de gestion de pharmacie  est une application console. Qui a pou
 
 **Contexte du projet :**
 
-L’application doit avoir un menu qui vous permet de :
+# Projet Fin SAS Gestion de Pharmacie 📁
 
-- Ajouter un nouveau produit: un produit est identifié par : son code, son nom, sa quantité, et son prix.
-- Ajouter plusieurs nouveaux produits: un produit est identifié par :son code, son nom, sa quantité, et son prix.
-- Lister tous les produits (Nom, prix, prix TTC):
-  - lister tous les produits selon l’ordre alphabétique  croissant du nom.
-  - lister tous les produits selon l’ordre  décroissant du prix.
+l’application de gestion de pharmacie  est une application console. Qui a pour but de gérer les produits pharmaceutiques (ajouter, rechercher, supprimer et afficher un produit …)
 
-**N.B :  chaque produit à un Prix TTC = Prix + 15% du prix**
+## base de données
 
-- Acheter produit : permet de mettre à jour la quantité après avoir introduit le code produit et la quantité à déduire
+| Produit     | acheter           | Client Text   |
+| :---        |    :----:         |          ---: |
+| code        | code_achate       | cin           |
+| nom         | code_proudit      | nom           |
+| prix        | code_client       | prenom        |
+| prix_ttc    | date_achate       |               |
+| quantite    | qt_achate         |               |
 
-**N.B :Pour chaque produit acheté, vous devez enregistrer le prix TTC et la date d’achat.**
+## Liste de tâches
 
-- Rechercher les produits Par :
-- Code
-- Quantité.
-- Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3.
-- Alimenter le stock: permet de mettre à jour la quantité après avoir introduit le code produit et la quantité à ajouter.
-- Supprimer les produits par:
-- Code
-- Statistique de vente:
+- [x] Ajouter Proudit
 
-Afficher le total des prix des produits vendus en journée courante
+  - un Proudit
+  - Plusieurs Proudit
 
-Afficher la moyenne des prix des produits vendus en journée courante
+- [x] Lister tous les produits
 
-Afficher le Max des prix des produits vendus en journée courante
+  - lister tous les produits selon l’ordre alphabétique  croissant du nom.
+  - lister tous les produits selon l’ordre  décroissant du prix.
 
-Afficher le Min des prix des produits vendus en journée courante
+- [x] login to  an account
 
-**Bonus:**
+  - the user can login to his account with accountnumber and password that you give him in the creating account time.
+  - if the password and accountnumber are correct send him to his profile account
 
-Vous pouvez utiliser les fichiers afin d’enregistrer les informations du produit.
+- [x] seend money
+  - the user can seend money to another account by accountnumber and the usermust have enough money to sent first if he doesn't have enough money to sent make sure to notify him
 
-**N.B: L’utilisateur doit retourner au menu principal après chaque opération**
-
-*Implémenter les fonctionnalités citées au menu principal. Utiliser les algorithmes de recherche et de tri qui vous conviennent.*
+- [x] exsit anytime
