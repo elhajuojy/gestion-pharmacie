@@ -799,15 +799,6 @@ void RechercherlesproduitsPar(){
 
 //******  main function 🎁🎁
 int main(){
-
-    //start the projet 
-    FILE* fProduittr;
-    //FILE* fAchat;
-    //modes :r=> read
-    fProduittr = fopen("produits","r");
-    //fAchat = fopen("achates","r");
-    
-    // uploadDataFromFileProduit(fProduittr);
     
     ListProuditdynamic =
     (Produit*)malloc(ListProuditdynamicSize*sizeof(Produit));
