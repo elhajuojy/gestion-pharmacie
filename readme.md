@@ -1,13 +1,3 @@
-# Projet Fin SAS (2022/2023)
-
-## **Gestion de Pharmacie**
-
-**Introduction :**
-
-l’application de gestion de pharmacie  est une application console. Qui a pour but de gérer les produits pharmaceutiques (ajouter, rechercher, supprimer et afficher un produit …)
-
-**Contexte du projet :**
-
 # Projet Fin SAS Gestion de Pharmacie 📁
 
 l’application de gestion de pharmacie  est une application console. Qui a pour but de gérer les produits pharmaceutiques (ajouter, rechercher, supprimer et afficher un produit …)
@@ -40,21 +30,21 @@ L’application doit avoir un menu qui vous permet de :
       **N.B :Pour chaque produit acheté, vous devez enregistrer le prix TTC et la date d’achat.**
 
 - Rechercher les produits Par :
-    - Code
-    - Quantité.
+- Code
+- Quantité.
 - Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3.
 - Alimenter le stock: permet de mettre à jour la quantité après avoir introduit le code produit et la quantité à ajouter.
 - Supprimer les produits par:
-    - Code
+- Code
 - Statistique de vente:
 
-    - Afficher le total des prix des produits vendus en journée courante
+Afficher le total des prix des produits vendus en journée courante
 
-    - Afficher la moyenne des prix des produits vendus en journée courante
+Afficher la moyenne des prix des produits vendus en journée courante
 
-    - Afficher le Max des prix des produits vendus en journée courante
+Afficher le Max des prix des produits vendus en journée courante
 
-    - Afficher le Min des prix des produits vendus en journée courante
+Afficher le Min des prix des produits vendus en journée courante
 
 **Bonus:**
 
